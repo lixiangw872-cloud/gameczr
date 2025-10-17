@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>游戏服务价格表 - 完全匹配版</title>
+    <title>游戏服务价格表</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -26,11 +26,247 @@
             color: var(--dark);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+        
+        /* 樱花飘落效果 */
+        .sakura {
+            position: absolute;
+            top: -50px;
+            width: 15px;
+            height: 15px;
+            background: #ffc8dd;
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.8;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+        
+        /* QQ客服小球 */
+        .qq-service {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #12b7f5 0%, #0084ff 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+        
+        .qq-service:hover {
+            transform: scale(1.1);
+        }
+        
+        .qq-service i {
+            color: white;
+            font-size: 24px;
+        }
+        
+        .qq-service span {
+            color: white;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+        
+        /* 信誉图小球 */
+        .credit-service {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #a8e6cf 0%, #7bcfa9 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+        
+        .credit-service:hover {
+            transform: scale(1.1);
+        }
+        
+        .credit-service span {
+            color: white;
+            font-size: 12px;
+            margin-top: 2px;
+            text-align: center;
+            line-height: 1.2;
+            font-weight: bold;
+        }
+        
+        /* 刷新按钮 - 修改部分 */
+        .refresh-button {
+            position: fixed;
+            bottom: 110px; /* QQ小球上方1cm处 (30px + 60px + 20px) */
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: transparent; /* 背景透明 */
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: none; /* 移除阴影 */
+            transition: all 0.3s ease;
+            z-index: 100;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+        
+        .refresh-button:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.1); /* 悬停时添加轻微背景 */
+        }
+        
+        .refresh-button i {
+            /* 彩色小火箭图标 */
+            background: linear-gradient(45deg, #FF512F, #F09819, #FF512F);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+        }
+        
+        /* 水波纹效果 */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(3); /* 扩散到1.5cm左右 */
+                opacity: 0;
+            }
+        }
+        
+        /* 公告弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+            z-index: 1001;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .modal-close:hover {
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .modal-title {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+            padding-right: 30px;
+        }
+        
+        .modal-body {
+            line-height: 1.6;
+            color: var(--dark);
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .countdown-timer {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 14px;
+            color: #999;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
         
         .main-card {
@@ -45,17 +281,67 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
+        }
+        
+        /* QQ头像样式 */
+        .qq-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .qq-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .header h1 {
-            font-size: 36px;
+            font-size: 28px; /* 字体变小一点 */
             margin-bottom: 10px;
+            text-align: center; /* 居中显示 */
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd); /* 渐变色 */
+            background-size: 300% 300%; /* 渐变不要太快 */
+            animation: gradient 8s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .update-info {
             margin-top: 15px;
             font-size: 14px;
             opacity: 0.8;
+        }
+        
+        .last-refresh {
+            margin-top: 10px;
+            font-size: 16px; /* 比最后更新字体大一点 */
+            color: rgba(255, 255, 255, 0.9); /* 颜色深一点 */
+        }
+        
+        .proxy-status {
+            background: #fff3cd;
+            padding: 15px;
+            margin: 0 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            border-left: 4px solid #ffc107;
+            margin-top: 20px;
         }
         
         .price-grid {
@@ -74,6 +360,952 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
+        .price-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .item-price {
+            color: var(--primary);
+            font-size: 18px; /* 字体变小一号 */
+            font-weight: 700;
+        }
+        
+        /* 双价位样式 - 修改部分 */
+        .dual-price {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 15px; /* 两个价位之间的间隔 */
+        }
+        
+        .price-main, .price-secondary {
+            font-size: 18px; /* 两个价格字体大小相同，变小一号 */
+        }
+        
+        .price-separator {
+            color: #ccc;
+            font-weight: normal;
+        }
+        
+        .loading, .error {
+            text-align: center;
+            padding: 50px;
+            color: var(--primary);
+        }
+        
+        .error {
+            color: #e74c3c;
+        }
+        
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .contact {
+            background: var(--light);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 30px 30px;
+            border-radius: 10px;
+        }
+        
+        .load-method {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        
+        .method-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .method-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .method-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .success-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+        
+        .update-notice {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 30px 0;
+            text-align: center;
+            display: none;
+            animation: fadeInOut 3s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .cached-indicator {
+            font-size: 12px;
+            color: #6c757d;
+            margin-left: 5px;
+        }
+        
+        .copy-notification {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 101;
+            display: none;
+            animation: fadeInOut 2s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 樱花飘落效果 -->
+    <div id="sakura-container"></div>
+    
+    <!-- 刷新按钮 -->
+    <div class="refresh-button" id="refreshButton">
+        <i class="fas fa-rocket"></i> <!-- 使用小火箭图标 -->
+    </div>
+    
+    <!-- QQ客服小球 -->
+    <div class="qq-service" id="qqService">
+        <i class="fab fa-qq"></i>
+        <span>QQ客服</span>
+    </div>
+    
+    <!-- 信誉图小球 -->
+    <div class="credit-service" id="creditService">
+        <span>信誉图</span>
+    </div>
+    
+    <!-- 复制成功提示 -->
+    <div class="copy-notification" id="copyNotification">客服QQ已复制</div>
+    
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop>
+        <source src="http://music.163.com/song/media/outer/url?id=1394167216.mp3" type="audio/mpeg">
+        您的浏览器不支持音频元素。
+    </audio>
+    
+    <!-- 公告弹窗 -->
+    <div class="modal-overlay" id="announcementModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <h2 class="modal-title" id="modalTitle">公告标题</h2>
+            <div class="modal-body" id="modalBody">
+                公告内容加载中...
+            </div>
+            <div class="countdown-timer" id="countdownTimer">5秒后关闭</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="main-card">
+            <div class="header">
+                <!-- QQ头像 -->
+                <div class="qq-avatar" id="qqAvatar">
+                    <!-- 头像将通过JavaScript动态加载 -->
+                </div>
+                
+                <h1>游戏服务价格表</h1>
+                <p>远程控制 · 实时更新 · 智能代理</p>
+                <div class="update-info">
+                    最后更新: <span id="last-update">-</span>
+                    <span id="auto-update-info"></span>
+                </div>
+                <div class="load-method">
+                    <span>加载方式:</span>
+                    <button class="method-btn active" data-method="direct">直接加载</button>
+                    <button class="method-btn" data-method="proxy">使用代理</button>
+                </div>
+                <div class="last-refresh">
+                    上次刷新: <span id="last-refresh-time">-</span>
+                </div>
+            </div>
+            
+            <div class="proxy-status">
+                <p><strong>加载状态：</strong> <span id="proxy-status">初始化中...</span></p>
+            </div>
+            
+            <div class="update-notice" id="updateNotice">
+                价格数据已更新到最新版本！
+            </div>
+            
+            <div id="price-content">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    <p>正在加载价格数据...</p>
+                </div>
+            </div>
+            
+            <div class="contact">
+                <p>联系方式: qwq_xiao_wang</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 配置 - 使用您提供的GitHub Gist URL
+        const CONFIG = {
+            gistUrl: 'https://gist.githubusercontent.com/lixiangw872-cloud/8315551bd33b8ea7ba22431f3b4a6b9c/raw/cb8bb742e17b5084bd30c418e9bd113105953bfe/prices.json',
+            
+            // 多个CORS代理备选方案 
+            corsProxies: [
+                'https://api.codetabs.com/v1/proxy/?quest=',
+                'https://corsproxy.io/?',
+                'https://thingproxy.freeboard.io/fetch/',
+                'https://cors.bridged.cc/'
+            ],
+            
+            // 自动刷新间隔（毫秒）- 15分钟
+            refreshInterval: 900000,
+            
+            // 本地存储键名
+            storageKey: 'cachedPriceData',
+            
+            // 公告显示间隔（毫秒）- 15分钟
+            announcementInterval: 900000
+        };
+
+        // 当前加载方式
+        let currentLoadMethod = 'direct';
+        let lastSuccessfulMethod = null;
+        let isUsingCachedData = false;
+
+        // 加载QQ头像
+        function loadQQAvatar() {
+            const qqAvatar = document.getElementById('qqAvatar');
+            const qqNumber = '1330144749';
+            const avatarUrl = `https://q1.qlogo.cn/g?b=qq&nk=${qqNumber}&s=100`;
+            
+            // 创建图片元素
+            const img = document.createElement('img');
+            img.src = avatarUrl;
+            img.alt = 'QQ头像';
+            img.onerror = function() {
+                // 如果加载失败，显示默认图标
+                qqAvatar.innerHTML = '<i class="fas fa-user" style="font-size: 40px; color: #ccc;"></i>';
+            };
+            
+            qqAvatar.appendChild(img);
+        }
+
+        // 更新上次刷新时间
+        function updateLastRefreshTime() {
+            const now = new Date();
+            const formattedTime = now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('last-refresh-time').textContent = formattedTime;
+        }
+
+        // 创建樱花飘落效果
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakuraCount = 40; // 增加樱花数量
+            
+            for (let i = 0; i < sakuraCount; i++) {
+                const sakura = document.createElement('div');
+                sakura.className = 'sakura';
+                
+                // 随机位置
+                const left = Math.random() * 100;
+                sakura.style.left = `${left}vw`;
+                
+                // 随机大小
+                const size = 10 + Math.random() * 15;
+                sakura.style.width = `${size}px`;
+                sakura.style.height = `${size}px`;
+                
+                // 随机透明度
+                sakura.style.opacity = 0.5 + Math.random() * 0.5;
+                
+                // 随机动画时长
+                const duration = 10 + Math.random() * 20;
+                sakura.style.animationDuration = `${duration}s`;
+                
+                // 随机延迟开始
+                const delay = Math.random() * 10;
+                sakura.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(sakura);
+                
+                // 樱花动画结束后重新创建樱花，实现连续飘落
+                sakura.addEventListener('animationend', function() {
+                    this.remove();
+                    createSingleSakura();
+                });
+            }
+        }
+        
+        // 创建单个樱花
+        function createSingleSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            
+            // 随机位置
+            const left = Math.random() * 100;
+            sakura.style.left = `${left}vw`;
+            
+            // 随机大小
+            const size = 10 + Math.random() * 15;
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            
+            // 随机透明度
+            sakura.style.opacity = 0.5 + Math.random() * 0.5;
+            
+            // 随机动画时长
+            const duration = 10 + Math.random() * 20;
+            sakura.style.animationDuration = `${duration}s`;
+            
+            container.appendChild(sakura);
+            
+            // 樱花动画结束后重新创建樱花
+            sakura.addEventListener('animationend', function() {
+                this.remove();
+                createSingleSakura();
+            });
+        }
+
+        // 初始化QQ客服小球
+        function initQQService() {
+            const qqService = document.getElementById('qqService');
+            const copyNotification = document.getElementById('copyNotification');
+            
+            // 点击QQ客服小球
+            qqService.addEventListener('click', function() {
+                // 复制QQ号到剪贴板
+                const qqNumber = '3174256584';
+                navigator.clipboard.writeText(qqNumber).then(() => {
+                    // 显示复制成功提示
+                    copyNotification.style.display = 'block';
+                    setTimeout(() => {
+                        copyNotification.style.display = 'none';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    // 如果剪贴板API不可用，使用备用方法
+                    const textArea = document.createElement('textarea');
+                    textArea.value = qqNumber;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // 显示复制成功提示
+                    copyNotification.style.display = 'block';
+                    setTimeout(() => {
+                        copyNotification.style.display = 'none';
+                    }, 2000);
+                });
+            });
+        }
+
+        // 初始化信誉图小球
+        function initCreditService() {
+            const creditService = document.getElementById('creditService');
+            
+            // 点击信誉图小球
+            creditService.addEventListener('click', function() {
+                // 跳转到指定网址
+                window.open('https://www.kdocs.cn/l/ca8HeN9MRtF0', '_blank');
+            });
+        }
+
+        // 初始化刷新按钮
+        function initRefreshButton() {
+            const refreshButton = document.getElementById('refreshButton');
+            
+            // 点击刷新按钮
+            refreshButton.addEventListener('click', function() {
+                // 滚动到页面顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // 重新加载价格数据
+                loadPrices();
+                
+                // 更新上次刷新时间
+                updateLastRefreshTime();
+            });
+        }
+
+        // 初始化水波纹效果
+        function initRippleEffect() {
+            document.body.addEventListener('click', function(e) {
+                // 创建水波纹元素
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                document.body.appendChild(ripple);
+                
+                // 设置水波纹位置和大小
+                const size = 20; // 初始大小
+                const x = e.clientX - size / 2;
+                const y = e.clientY - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                
+                // 动画结束后移除元素
+                ripple.addEventListener('animationend', () => {
+                    ripple.remove();
+                });
+            });
+        }
+
+        // 初始化音乐播放
+        function initMusic() {
+            const bgMusic = document.getElementById('bgMusic');
+            const musicStorageKey = 'bgMusicCurrentTime';
+            
+            // 尝试从本地存储恢复播放位置
+            const savedTime = localStorage.getItem(musicStorageKey);
+            if (savedTime) {
+                bgMusic.currentTime = parseFloat(savedTime);
+            }
+            
+            // 定期保存播放位置
+            bgMusic.addEventListener('timeupdate', function() {
+                localStorage.setItem(musicStorageKey, bgMusic.currentTime.toString());
+            });
+            
+            // 页面加载时尝试播放音乐
+            window.addEventListener('load', function() {
+                // 延迟播放，确保页面完全加载
+                setTimeout(() => {
+                    bgMusic.play().catch(e => {
+                        console.log('自动播放被阻止，需要用户交互:', e);
+                        // 如果自动播放被阻止，在用户第一次点击时播放
+                        const playOnInteraction = function() {
+                            bgMusic.play();
+                            document.body.removeEventListener('click', playOnInteraction);
+                        };
+                        document.body.addEventListener('click', playOnInteraction);
+                    });
+                }, 1000);
+            });
+            
+            // 页面可见性改变时，如果页面隐藏则暂停，显示则播放
+            document.addEventListener('visibilitychange', function() {
+                // 即使页面隐藏，音乐也继续播放
+                // 移除暂停逻辑，让音乐一直播放
+                if (!document.hidden) {
+                    bgMusic.play().catch(e => console.log('自动播放被阻止:', e));
+                }
+            });
+        }
+
+        // 更新加载状态显示
+        function updateProxyStatus(message) {
+            document.getElementById('proxy-status').textContent = message;
+        }
+
+        // 显示公告弹窗
+        function showAnnouncement(announcementData) {
+            const modal = document.getElementById('announcementModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            const countdownTimer = document.getElementById('countdownTimer');
+            
+            console.log("公告数据:", announcementData);
+            
+            // 检查公告数据是否存在且应该显示
+            if (announcementData && 
+                (announcementData.show === true || 
+                 announcementData.显示 === true || 
+                 announcementData.enabled === true)) {
+                
+                // 检查上次显示公告的时间
+                const lastShowTime = localStorage.getItem('lastAnnouncementTime');
+                const currentTime = new Date().getTime();
+                
+                // 如果上次显示时间不存在，或者距离上次显示已经超过15分钟，则显示公告
+                if (!lastShowTime || (currentTime - lastShowTime > CONFIG.announcementInterval)) {
+                    title.textContent = announcementData.title || announcementData.标题 || '公告';
+                    body.textContent = announcementData.content || announcementData.内容 || '暂无公告内容';
+                    modal.style.display = 'flex';
+                    console.log("显示公告弹窗");
+                    
+                    // 更新最后一次显示公告的时间
+                    localStorage.setItem('lastAnnouncementTime', currentTime.toString());
+                    
+                    // 启动倒计时自动关闭
+                    startCountdown(5);
+                } else {
+                    modal.style.display = 'none';
+                    console.log("15分钟内已显示过公告，不再显示");
+                }
+            } else {
+                modal.style.display = 'none';
+                console.log("隐藏公告弹窗 - 公告数据不存在或显示标志为false");
+            }
+        }
+
+        // 倒计时自动关闭
+        function startCountdown(seconds) {
+            const countdownTimer = document.getElementById('countdownTimer');
+            const modal = document.getElementById('announcementModal');
+            let remaining = seconds;
+            
+            countdownTimer.textContent = `${remaining}秒后关闭`;
+            
+            const countdownInterval = setInterval(() => {
+                remaining--;
+                countdownTimer.textContent = `${remaining}秒后关闭`;
+                
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    modal.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        // 保存数据到本地存储
+        function saveToLocalStorage(data) {
+            try {
+                const dataToStore = {
+                    data: data,
+                    timestamp: new Date().getTime()
+                };
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(dataToStore));
+                console.log("数据已保存到本地存储");
+            } catch (error) {
+                console.error("保存到本地存储失败:", error);
+            }
+        }
+
+        // 从本地存储获取数据
+        function getFromLocalStorage() {
+            try {
+                const stored = localStorage.getItem(CONFIG.storageKey);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    // 检查数据是否过期（例如超过1小时）
+                    const oneHour = 60 * 60 * 1000;
+                    if (new Date().getTime() - parsed.timestamp < oneHour) {
+                        console.log("从本地存储加载数据");
+                        return parsed.data;
+                    } else {
+                        console.log("本地存储数据已过期");
+                    }
+                }
+            } catch (error) {
+                console.error("从本地存储读取数据失败:", error);
+            }
+            return null;
+        }
+
+        // 直接加载URL（不通过代理）
+        async function fetchDirect() {
+            updateProxyStatus('尝试直接加载...');
+            console.log("尝试直接加载:", CONFIG.gistUrl);
+            
+            try {
+                const response = await fetch(CONFIG.gistUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    // 添加缓存避免机制
+                    cache: 'no-cache'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                updateProxyStatus('直接加载成功');
+                console.log("直接加载成功:", data);
+                lastSuccessfulMethod = 'direct';
+                
+                // 保存到本地存储
+                saveToLocalStorage(data);
+                
+                return data;
+            } catch (error) {
+                console.warn('直接加载失败:', error.message);
+                throw error;
+            }
+        }
+
+        // 通过代理加载
+        async function fetchWithProxy() {
+            let lastError = null;
+            
+            // 尝试所有可用的代理
+            for (let i = 0; i < CONFIG.corsProxies.length; i++) {
+                const proxy = CONFIG.corsProxies[i];
+                try {
+                    updateProxyStatus(`尝试代理 ${i + 1}/${CONFIG.corsProxies.length}`);
+                    
+                    const proxyUrl = proxy + encodeURIComponent(CONFIG.gistUrl);
+                    const url = proxyUrl + '&t=' + new Date().getTime();
+                    
+                    console.log("通过代理请求URL:", url);
+                    
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP错误: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    updateProxyStatus(`代理 ${i + 1} 加载成功`);
+                    console.log("通过代理加载成功:", data);
+                    lastSuccessfulMethod = 'proxy';
+                    
+                    // 保存到本地存储
+                    saveToLocalStorage(data);
+                    
+                    return data;
+                } catch (error) {
+                    lastError = error;
+                    console.warn(`代理 ${i + 1} 失败:`, error.message);
+                    
+                    // 如果还有代理可尝试，等待一下再继续
+                    if (i < CONFIG.corsProxies.length - 1) {
+                        updateProxyStatus(`代理 ${i + 1} 失败，尝试下一个...`);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                }
+            }
+            
+            // 所有代理都失败
+            throw new Error(`所有代理尝试均失败。最后错误: ${lastError?.message}`);
+        }
+
+        // 获取价格数据（智能选择方式）
+        async function fetchPrices() {
+            // 如果上次成功使用的是直接加载，优先尝试直接加载
+            if (currentLoadMethod === 'direct' || lastSuccessfulMethod === 'direct') {
+                try {
+                    return await fetchDirect();
+                } catch (error) {
+                    console.log('直接加载失败，尝试使用代理');
+                    return await fetchWithProxy();
+                }
+            } 
+            // 如果明确要求使用代理或上次成功使用的是代理
+            else {
+                try {
+                    return await fetchWithProxy();
+                } catch (error) {
+                    console.log('代理加载失败，尝试直接加载');
+                    return await fetchDirect();
+                }
+            }
+        }
+
+        // 渲染价格页面
+        function renderPrices(data, isCached = false) {
+            const content = document.getElementById('price-content');
+            const lastUpdate = document.getElementById('last-update');
+            
+            if (!data) {
+                content.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        <p>未能加载价格数据</p>
+                        <button class="refresh-btn" onclick="loadPrices()">
+                            <i class="fas fa-sync-alt"></i> 重新加载
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 更新最后更新时间
+            const updateTime = data.lastUpdate || new Date().toLocaleString('zh-CN');
+            lastUpdate.textContent = updateTime + (isCached ? ' (缓存数据)' : '');
+            
+            // 显示公告
+            const announcement = data.announcement;
+            console.log("提取的公告数据:", announcement);
+            showAnnouncement(announcement);
+            
+            // 获取价格数据
+            const prices = data.prices;
+            
+            // 生成价格网格
+            let html = '<div class="price-grid">';
+            
+            // 动态显示所有价格项目
+            let foundItems = 0;
+            for (const [itemName, itemPrice] of Object.entries(prices)) {
+                // 跳过非价格字段
+                if (itemName === 'lastUpdate' || itemName === 'announcement') continue;
+                
+                foundItems++;
+                
+                // 检查是否为双价位格式（包含"-"分隔符）
+                if (itemPrice.includes('-')) {
+                    const prices = itemPrice.split('-');
+                    html += `
+                        <div class="price-item">
+                            <div class="item-name">${itemName}</div>
+                            <div class="item-price">
+                                <div class="dual-price">
+                                    <span class="price-main">${prices[0]}</span>
+                                    <span class="price-separator">|</span>
+                                    <span class="price-secondary">${prices[1]}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="price-item">
+                            <div class="item-name">${itemName}</div>
+                            <div class="item-price">${itemPrice}</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            html += '</div>';
+            
+            if (foundItems === 0) {
+                content.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        <p>Gist中未找到价格数据</p>
+                        <p>请确保Gist包含正确的JSON格式且字段匹配</p>
+                        <button class="refresh-btn" onclick="loadPrices()">
+                            <i class="fas fa-sync-alt"></i> 重新加载
+                        </button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = html;
+                const methodText = isCached ? '缓存数据' : (lastSuccessfulMethod === 'direct' ? '直接加载' : '代理加载');
+                updateProxyStatus(`成功加载 ${foundItems} 个价格项目 (方式: ${methodText})`);
+                
+                // 更新加载方式按钮显示
+                updateMethodButtons();
+                
+                // 如果使用的是缓存数据，显示提示
+                if (isCached) {
+                    isUsingCachedData = true;
+                }
+            }
+        }
+
+        // 更新加载方式按钮状态
+        function updateMethodButtons() {
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                if (btn.dataset.method === currentLoadMethod) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+                
+                // 如果这是上次成功的方法，添加成功标记
+                if (btn.dataset.method === lastSuccessfulMethod) {
+                    if (!btn.querySelector('.success-badge')) {
+                        const badge = document.createElement('span');
+                        badge.className = 'success-badge';
+                        badge.textContent = '成功';
+                        btn.appendChild(badge);
+                    }
+                } else {
+                    const badge = btn.querySelector('.success-badge');
+                    if (badge) {
+                        badge.remove();
+                    }
+                }
+            });
+        }
+
+        // 显示更新通知
+        function showUpdateNotice() {
+            const notice = document.getElementById('updateNotice');
+            notice.style.display = 'block';
+            setTimeout(() => {
+                notice.style.display = 'none';
+            }, 3000);
+        }
+
+        // 切换加载方式
+        function switchLoadMethod(method) {
+            currentLoadMethod = method;
+            updateMethodButtons();
+            loadPrices();
+        }
+
+        // 加载价格数据
+        async function loadPrices() {
+            // 先尝试从本地存储加载
+            const cachedData = getFromLocalStorage();
+            if (cachedData && !isUsingCachedData) {
+                console.log("使用缓存数据显示页面");
+                renderPrices(cachedData, true);
+            }
+            
+            try {
+                const prices = await fetchPrices();
+                
+                // 如果之前使用的是缓存数据，并且新数据与缓存数据不同，显示更新通知
+                if (isUsingCachedData) {
+                    const cached = getFromLocalStorage();
+                    if (cached && JSON.stringify(cached) !== JSON.stringify(prices)) {
+                        showUpdateNotice();
+                    }
+                }
+                
+                renderPrices(prices, false);
+                isUsingCachedData = false;
+            } catch (error) {
+                console.error('加载价格失败:', error);
+                
+                // 如果没有缓存数据，显示错误
+                if (!cachedData) {
+                    updateProxyStatus('所有加载方式均失败');
+                    document.getElementById('price-content').innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-triangle fa-2x"></i>
+                            <p>加载失败: ${error.message}</p>
+                            <p>建议尝试以下解决方案：</p>
+                            <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                                <li>检查网络连接</li>
+                                <li>确认GitHub Gist设置为公开</li>
+                                <li>尝试切换上方加载方式</li>
+                                <li>稍后重试或更换网络环境</li>
+                            </ul>
+                            <button class="refresh-btn" onclick="loadPrices()">
+                                <i class="fas fa-sync-alt"></i> 重新加载
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    updateProxyStatus('无法获取最新数据，使用缓存数据');
+                }
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载QQ头像
+            loadQQAvatar();
+            
+            // 创建樱花效果
+            createSakura();
+            
+            // 初始化QQ客服小球
+            initQQService();
+            
+            // 初始化信誉图小球
+            initCreditService();
+            
+            // 初始化刷新按钮
+            initRefreshButton();
+            
+            // 初始化水波纹效果
+            initRippleEffect();
+            
+            // 初始化音乐播放
+            initMusic();
+            
+            // 绑定公告关闭事件
+            const modal = document.getElementById('announcementModal');
+            const closeBtn = document.getElementById('modalClose');
+            
+            // 点击关闭按钮
+            closeBtn.addEventListener('click', function() {
+                console.log("点击关闭按钮");
+                modal.style.display = 'none';
+            });
+            
+            // 点击背景关闭
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    console.log("点击背景关闭");
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // 绑定加载方式切换按钮
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    switchLoadMethod(this.dataset.method);
+                });
+            });
+            
+            // 加载价格数据
+            loadPrices();
+            
+            // 设置自动刷新
+            setInterval(loadPrices, CONFIG.refreshInterval);
+            
+            // 显示自动刷新提示
+            document.getElementById('auto-update-info').textContent = 
+                ` (自动刷新: ${CONFIG.refreshInterval / 1000 / 60}分钟)`;
+            
+            // 初始化上次刷新时间
+            updateLastRefreshTime();
+        });
+    </script>
+</body>
+</html>        
         .price-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
